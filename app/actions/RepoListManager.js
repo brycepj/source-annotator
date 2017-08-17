@@ -1,4 +1,4 @@
-import { cloneRemoteRepository } from '../services/rando';
+import { installFromRemote } from '../services/rando';
 
 export function installNewRepository(remoteUrl) {
   return (dispatch) => {
@@ -9,11 +9,11 @@ export function installNewRepository(remoteUrl) {
       payload: true,
     });
 
-    cloneRemoteRepository(remoteUrl)
-      .then((repositories) => {
+    installFromRemote(remoteUrl)
+      .then((repo) => {
         dispatch({
           type: 'INSTALL_REPO',
-          payload: repositories,
+          payload: repo,
         });
 
         dispatch({
@@ -21,7 +21,7 @@ export function installNewRepository(remoteUrl) {
           payload: false,
         });
 
-        return repositories;
+        return repo;
       })
       .catch((err) => {
         dispatch({

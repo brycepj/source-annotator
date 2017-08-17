@@ -6,7 +6,7 @@ export default class RepoDownloader extends Component {
   constructor() {
     super();
     this.state = {
-      remoteUrlInput: '',
+      remoteUrlInput: 'https://github.com/brycepj/scrawl',
       inputIsDirty: false,
     };
   }
@@ -52,9 +52,11 @@ export default class RepoDownloader extends Component {
     return (
       <div>
         <h3>Provide Repo URL</h3>
-        <span className="error-message"> { this.maybeShowInstallErrorOccurred() }</span>
-        <span className="error-message"> { this.maybeShowFetchingMessage() } </span>
-        <span className="error-message"> { this.maybeShowInvalidMessage() } </span>
+        <div>
+          <span className="error-message"> { this.maybeShowInstallErrorOccurred() }</span>
+          <span className="error-message"> { this.maybeShowFetchingMessage() } </span>
+          <span className="error-message"> { this.maybeShowInvalidMessage() } </span>
+        </div>
         <input
           type="text"
           value={this.state.remoteUrlInput}
@@ -70,3 +72,13 @@ export default class RepoDownloader extends Component {
     );
   }
 }
+
+/**
+ * 
+ *  see the existing list
+ *  install repo
+ *  see it in the list
+ *  
+ * 
+ * 
+ */
