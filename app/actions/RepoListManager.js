@@ -1,4 +1,4 @@
-import { installFromRemote } from '../services/rando';
+import { installFromRemote, removeRepo, getRepoListFromStore } from '../services/rando';
 
 export function installNewRepository(remoteUrl) {
   return (dispatch) => {
@@ -49,5 +49,33 @@ export function setRemoteInputValidity(isValid) {
       type: 'SET_REPO_INSTALL_ERROR',
       payload: false,
     });
+  };
+}
+
+export function deleteRepository(repo) {
+  return (dispatch) => {
+    dispatch({
+      type: 'SET_IS_DELETING_REPO',
+      payload: true,
+    });
+
+    removeRepo(repo)
+      .then(() => {
+        dispatch({
+          type: 'DELETE_REPO',
+          payload: repo,
+        });
+
+        dispatch({
+          type: 'SET_IS_DELETING_REPO',
+          payload: false,
+        });
+      });
+  };
+}
+
+export function initRepoList() {
+  return (dispatch) => {
+    getRepoListFromStore().then();
   };
 }

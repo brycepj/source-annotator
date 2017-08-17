@@ -2,13 +2,17 @@ const path = require('path');
 const uuid = require('uuid');
 
 const { REPO_STORE_PATH } = require('./constants');
-const { getHeadSHA, cloneRemoteRepo } = require('./git');
+const { getHeadSHA, cloneRemoteRepo, removeRepoFromDisk } = require('./git');
 
 export function installFromRemote(remoteUrl) {
   const payload = { remoteUrl };
 
   return cloneRemoteRepo(payload)
     .then(makeRepo);
+}
+
+export function removeRepo(repo) {
+  return removeRepoFromDisk(repo.repoPath);
 }
 
 function deriveRepoNameFromRemote(remoteRepoPath) {
@@ -30,4 +34,8 @@ function makeRepo(payload) {
   });
 
   return getHeadSHA(payload);
+}
+
+export function getRepoListFromStore() {
+  
 }

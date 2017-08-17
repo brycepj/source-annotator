@@ -12,8 +12,7 @@ function shellAsync(cmd, cfg = {}) {
 }
 
 export function cloneRemoteRepo(payload) {
-  const TMP_DELETE_REPOSITORIES = 'rm -rf ./*';
-  const cmd = `cd ${REPO_STORE_PATH} && ${TMP_DELETE_REPOSITORIES} && git clone ${payload.remoteUrl}`;
+  const cmd = `cd ${REPO_STORE_PATH} && git clone ${payload.remoteUrl}`;
 
   return shellAsync(cmd).then(() => payload);
 }
@@ -26,4 +25,8 @@ export function getHeadSHA(payload) {
       headSHA,
     });
   });
+}
+
+export function removeRepoFromDisk(repoPath) {
+  return shellAsync(`rm -rf ${repoPath}`);
 }

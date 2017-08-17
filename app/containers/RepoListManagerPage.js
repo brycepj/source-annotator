@@ -8,12 +8,18 @@ import RepoInstaller from '../components/RepoListManager/RepoInstaller';
 
 
 class RepoListManagerPage extends Component {
+  getDefaultProps() {
+    RepoListManagerActions.initRepoList();
+  }
+
   render() {
     return (
       <div>
         <h1>hello from repolistmanager index component</h1>
         <RepoList 
           repositories={this.props.repositories} 
+          deleteRepository={this.props.deleteRepository}
+          isDeletingRepo={this.props.isDeletingRepo}
         />
         <RepoInstaller
           installErrorOccurred={this.props.installErrorOccurred}
@@ -31,6 +37,7 @@ function mapStateToProps(state) {
   return {
     repositories: state.repositories,
     isFetchingRepo: state.isFetchingRepo,
+    isDeletingRepo: state.isDeletingRepo,
     remoteInputIsValid: state.remoteInputIsValid,
     installErrorOccurred: state.installErrorOccurred,
   };
@@ -38,6 +45,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
+    deleteRepository: RepoListManagerActions.deleteRepository,
     installNewRepository: RepoListManagerActions.installNewRepository,
     setRemoteInputValidity: RepoListManagerActions.setRemoteInputValidity,
   }, dispatch);
