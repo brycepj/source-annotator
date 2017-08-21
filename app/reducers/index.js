@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { initRepositories } from '../services/initializers';
 
 const isFetchingRepo = (state = false, action) => {
   switch (action.type) {
@@ -8,7 +9,9 @@ const isFetchingRepo = (state = false, action) => {
   return state;
 };
 
-const repositories = (state = [], action) => {
+const initialRepositories = initRepositories();
+
+const repositories = (state = initialRepositories, action) => {
   switch (action.type) {
     case 'INSTALL_REPO':
       state.push(action.payload);
@@ -45,7 +48,16 @@ const isDeletingRepo = (state = false, action) => {
   return state;
 };
 
+const fileTree = (state = {}, action) => {
+  switch (action.type) {
+    case 'LOAD_FILE_TREE':
+      return action.payload;
+  }
+  return state;
+};
+
 const rootReducer = combineReducers({
+  fileTree,
   repositories,
   isFetchingRepo,
   isDeletingRepo,

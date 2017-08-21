@@ -8,10 +8,6 @@ import RepoInstaller from '../components/RepoListManager/RepoInstaller';
 
 
 class RepoListManagerPage extends Component {
-  getDefaultProps() {
-    RepoListManagerActions.initRepoList();
-  }
-
   render() {
     return (
       <div>

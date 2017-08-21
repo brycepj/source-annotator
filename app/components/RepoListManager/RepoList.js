@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 export default class RepositoryList extends Component {
   dispatchDeleteRepo(repo) {
@@ -17,7 +18,7 @@ export default class RepositoryList extends Component {
         <ul>
           { repositories.map((repo) =>
             <li key={repo.repoId}>
-              {repo.repoName} ({repo.remoteUrl})
+              <Link to={`/repo/${repo.repoId}`}> {repo.repoName} </Link>
               <button onClick={this.dispatchDeleteRepo.bind(this, repo)}> Delete Repo </button>
             </li>
           )}

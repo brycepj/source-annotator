@@ -4,11 +4,14 @@ const uuid = require('uuid');
 const { REPO_STORE_PATH } = require('./constants');
 const { getHeadSHA, cloneRemoteRepo, removeRepoFromDisk } = require('./git');
 
+const db = require('./db');
+
 export function installFromRemote(remoteUrl) {
   const payload = { remoteUrl };
 
   return cloneRemoteRepo(payload)
-    .then(makeRepo);
+    .then(makeRepo)
+    .then(db.addRepo); // returns the fully initialized document
 }
 
 export function removeRepo(repo) {
@@ -27,9 +30,9 @@ function makeRepo(payload) {
   const repoId = uuid.v1();
 
   Object.assign(payload, {
-    repoId,
-    repoName,
-    repoPath,
+    id: repoId,
+    name: repoName,
+    path: repoPath,
     lastUpdated,
   });
 

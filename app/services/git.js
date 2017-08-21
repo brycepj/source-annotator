@@ -18,7 +18,7 @@ export function cloneRemoteRepo(payload) {
 }
 
 export function getHeadSHA(payload) {
-  const cmd = `cd ${payload.repoPath} && git rev-parse --verify HEAD`;
+  const cmd = `cd ${payload.path} && git rev-parse --verify HEAD`;
 
   return shellAsync(cmd).then((headSHA) => {
     return Object.assign(payload, {

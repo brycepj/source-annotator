@@ -1,44 +1,37 @@
-const _ = require('lodash');
-const Promise = require('bluebird');
-const db = require('localforage');
+// API for accessing database -- methods should all return promise and handle their own errors
 
-// methods for read/write activity on indexedDB via localForage
-const DB_NAME = 'source-annotator';
-const STORE_KEY = 'source_annotator';
-const VERSION = 1.0;
+const RepoModel = require('../db/RepoModel');
 
-db.config({
-  driver: db.INDEXEDDB,
-  name: DB_NAME,
-  version: VERSION,
-  storeName: STORE_KEY,
-});
-
-function initDb() {
-  return maybeSetInitialValues({
-    repoList: [],
-    notes: {},
-  }).catch((err) => {
-    console.err('An error ocurred while initializing the database');
-  });
+export function getAllRepos() {
+  const config = {};
+  return RepoModel.find(config).exec()
+    .catch((err) => logDbError('getting all repos', config, err));
 }
 
-function setInitialValue(key, val) {
-  return db.getItem(key).then((existingVal) => {
-    if (existingVal === null) {
-      return db.setItem(key, val);
-    }
-
-    return Promise.resolve();
-  });
+export function addRepo(config) {
+  return RepoModel.create(config)
+    .catch((err) => logDbError('adding a repo', config, err));
 }
 
-function maybeSetInitialValues(initialPairs) {
-  const initializers = [];
+export function removeRepo(config) {
+  return RepoModel.remove(config)
+    .catch((err) => logDbError('removing a repo', config, err));
+}
 
-  _.forIn(initialPairs, (val, key) => {
-    initializers.push(setInitialValue(key, val));
-  });
+function logDbError(whileAction, config, err) {
+  console.error(`
+    ----------------------------------------
+    DB Error!
 
-  return Promise.all(initializers);
+    An error occurred while ${whileAction}.
+
+    Query Config: 
+
+    ${config}
+
+    Error:
+
+    ${err}
+    ---------------------------------------
+  `);
 }

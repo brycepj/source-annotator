@@ -25,6 +25,7 @@ export default class RepoDownloader extends Component {
     const rawRemoteInput = this.state.remoteUrlInput;
 
     if (this.props.remoteInputIsValid) {
+      debugger;
       this.props.installNewRepository(rawRemoteInput);
     } else {
       this.setState({ inputIsDirty: true });
