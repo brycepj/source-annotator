@@ -11,6 +11,7 @@ export function installNewRepository(remoteUrl) {
 
     installFromRemote(remoteUrl)
       .then((repo) => {
+        
         dispatch({
           type: 'INSTALL_REPO',
           payload: repo,

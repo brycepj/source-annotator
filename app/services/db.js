@@ -3,19 +3,28 @@
 const RepoModel = require('../db/RepoModel');
 
 export function getAllRepos() {
-  const config = {};
-  return RepoModel.find(config).exec()
-    .catch((err) => logDbError('getting all repos', config, err));
+  const query = {};
+  return RepoModel.find(query).exec()
+    .catch((err) => logDbError('getting all repos', query, err));
 }
 
-export function addRepo(config) {
-  return RepoModel.create(config)
-    .catch((err) => logDbError('adding a repo', config, err));
+export function getRepoById(repoId) {
+  const query = {
+    id: repoId,
+  };
+
+  return RepoModel.findOne({'details.id' : repoId })
+    .catch((err) => logDbError('getting a single repo', query, err));
 }
 
-export function removeRepo(config) {
-  return RepoModel.remove(config)
-    .catch((err) => logDbError('removing a repo', config, err));
+export function addRepo(query) {
+  return RepoModel.create(query)
+    .catch((err) => logDbError('adding a repo', query, err));
+}
+
+export function removeRepo(query) {
+  return RepoModel.remove(query)
+    .catch((err) => logDbError('removing a repo', query, err));
 }
 
 function logDbError(whileAction, config, err) {
@@ -27,7 +36,7 @@ function logDbError(whileAction, config, err) {
 
     Query Config: 
 
-    ${config}
+    ${JSON.stringify(config)}
 
     Error:
 

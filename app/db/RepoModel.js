@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Promise = require('bluebird');
 
 const schemaConfig = {
   collection: 'repositories',
@@ -17,7 +18,55 @@ const schemaDefinition = {
 
 const RepoSchema = mongoose.Schema(schemaDefinition, schemaConfig);
 
-module.exports = mongoose.model('Repo', RepoSchema);
+const RepoModel = mongoose.model('Repo', RepoSchema);
+
+
+function find(query) {
+  return new Promise((resolve, reject) => {
+    RepoModel.find(query).exec((err, results) => {
+      if (err) reject(err);
+      resolve(results);
+    });
+  });
+}
+
+function findOne(query) {
+  return new Promise((resolve, reject) => {
+    RepoModel.find(query).exec((err, results) => {
+      if (err) reject(err);
+      resolve(results[0]._doc);
+    });
+  });
+}
+
+function create(details) {
+  const query = {
+    details,
+  };
+
+  return new Promise((resolve, reject) => {
+    RepoModel.create(query, (err, newRepo) => {
+      if (err) reject(err);
+      resolve(newRepo._doc);
+    });
+  });
+}
+
+function remove() {
+  return new Promise((resolve, reject) => {
+    RepoModel.remove(query).exec((err) => {
+      if (err) reject(err);
+      resolve();
+    });
+  });
+}
+
+module.exports = {
+  find,
+  create,
+  remove,
+  findOne,
+};
 
 /**
     { 

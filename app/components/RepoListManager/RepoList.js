@@ -17,8 +17,8 @@ export default class RepositoryList extends Component {
         <span> {this.maybeShowDeletingRepoMessage()} </span>
         <ul>
           { repositories.map((repo) =>
-            <li key={repo.repoId}>
-              <Link to={`/repo/${repo.repoId}`}> {repo.repoName} </Link>
+            <li key={repo.details.id}>
+              <Link to={`/repo/${repo.details.id}`}> {repo.details.name} </Link>
               <button onClick={this.dispatchDeleteRepo.bind(this, repo)}> Delete Repo </button>
             </li>
           )}

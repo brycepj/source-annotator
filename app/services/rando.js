@@ -8,7 +8,6 @@ const db = require('./db');
 
 export function installFromRemote(remoteUrl) {
   const payload = { remoteUrl };
-
   return cloneRemoteRepo(payload)
     .then(makeRepo)
     .then(db.addRepo); // returns the fully initialized document

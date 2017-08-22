@@ -17,7 +17,7 @@ const repositories = (state = initialRepositories, action) => {
       state.push(action.payload);
       break;
     case 'DELETE_REPO':
-      removeItemByKey(state, action.payload, 'repoId');
+      removeItemByKey(state, action.payload, 'id');
       break;
   }
 
